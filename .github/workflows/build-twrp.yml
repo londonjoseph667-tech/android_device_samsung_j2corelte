@@ -46,10 +46,12 @@ jobs:
       - name: Build recovery
         run: |
           cd twrp
+          sudo apt install -y dos2unix
+          find device/samsung/j2corelte -type f \( -name "*.sh" -o -name "*.mk" -o -name "*.bp" -o -name "*.fstab" \) -print0 | xargs -0 dos2unix
           source build/envsetup.sh
           lunch omni_j2corelte-eng
           mka recoveryimage -j2
-
+          
       - name: Pack Odin tar
         run: |
           cd twrp/out/target/product/j2corelte
